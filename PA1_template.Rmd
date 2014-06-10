@@ -20,7 +20,6 @@ The following R packages are required:
 library(plyr)
 library (knitr)
 library(ggplot2)
-library(data.table)
 ```
 
 ```{r}
@@ -39,7 +38,8 @@ for steps, date and interval columns are changed.  The date column goes to date 
 # Set working directory:
 # setwd("~/Documents/Reproducible Research/RepData_PeerAssessment1")
 data <- read.csv(unzip("activity.zip", "activity.csv"), header = TRUE,
-                    sep = ",", stringsAsFactors = FALSE, colClasses=c("numeric", "Date", "numeric"))
+                 sep = ",", stringsAsFactors = FALSE, na.strings="NA",
+                 colClasses=c("numeric", "Date", "numeric"))
 
 ```
 
@@ -54,7 +54,7 @@ total steps per day is calculated.
 data.sums <- ddply(data, .(date), summarize, steps=sum(steps, na.rm = TRUE))
 # Make histogram
 qplot(data.sums$steps, geom = "histogram", main = "Total Number of Steps per Day", 
-      xlab="Steps", ylab = "Frequency", binwidth = 1000)
+      xlab="Steps per Day", ylab = "Frequency", binwidth = 2000, ylim = c(0, 25))
 mean1 <- mean(data.sums$steps)
 mean1
 median1 <- median(data.sums$steps)
@@ -71,8 +71,8 @@ each 5-minute interval.  Then qplot is used to plot the mean steps.
 ```{r, MeanStepsPerInterval, echo = TRUE}
 # Calculate the mean for each interval across all dates
 data.interval <- ddply(data, .(interval), summarize, steps = mean(steps, na.rm = TRUE))
-# Make a line plot of the means
-qplot(steps, interval, data = data.interval, geom = "line", main = "Mean Number of Steps per Interval", 
+
+qplot(interval, steps, data = data.interval, geom = "line", main = "Mean Number of Steps per Interval", 
       xlab="5-Minute Interval", ylab = "Average Number of Steps Taken")
 ```
 
@@ -137,7 +137,7 @@ previous results where NA values were excluded ("data.sums" dataframe).
 ```{r, FilledTotalStepsPerDay, echo = TRUE}
 filled.sums <- ddply(filled.data, .(date), summarize, steps=sum(steps, na.rm = FALSE))
 qplot(filled.sums$steps, geom = "histogram", main = "Total Number of Steps per Day", 
-      xlab="Steps", ylab = "Frequency", binwidth = 1000)
+      xlab="Steps per Day", ylab = "Frequency", binwidth = 2000, ylim = c(0, 25))
 mean2 <- mean(filled.sums$steps)
 mean2
 median2 <- median(filled.sums$steps)
