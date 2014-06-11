@@ -12,7 +12,7 @@ and November, 2012 and include the number of steps taken in 5 minute intervals e
 day."  This document outlines the steps used to load and preprocess the data, calculate
 mean steps taken per day, plot the average daily activity pattern, and fill in missing 
 values. Finally, a plot is constructed in an attempt to answer the question of whether 
-there are differences in activity patterns bewteen weekdays and weekends. 
+there are differences in activity patterns between weekdays and weekends. 
 
 ## Packages required
 The following R packages are required:
@@ -101,7 +101,7 @@ NA.report <- rbind(names(data), as.numeric(colSums(is.na(data))))
 NA.report
 
 ```
-From the report above, all NAs (n=2304) appear to be in the steps columns.
+From the report above, all NAs (n=2304) appear to be in the steps column.
 
 To fill in the missing values, all NA values will be set to the mean for that interval
 across all days.  A "for"" loop is used for this.  The new dataframe is called 
@@ -187,8 +187,6 @@ ggplot(daytype.mean, aes(interval, steps)) +
     xlab("5-Minute Interval") + 
     ylab("Mean Number of Steps")
 
-# max.daytype <- daytype.mean[which.max(daytype.mean$steps),]
-# max.daytype
 ```
 
 
